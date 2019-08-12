@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>iOS自适应cell行高的那点破事儿 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="FSAutoAdjust-cellHeightDemo  前言其实早就准备写这篇文章了，但是一直没有系统去整理一下相关的demo，加上最近离职了，各种事情忙的有点郁闷，所以一直拖沓了下来。回家休息了一段时间想起来写了一半的demo，在还没找工作的这段空挡时间抽空完善了一下再写篇说明文档备忘一下。">
+<meta name="keywords" content="技术,iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS自适应cell行高的那点破事儿">
+<meta property="og:url" content="http://yoursite.com/2017/08/07/FSAutoAdjust-cellHeightDemo/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="FSAutoAdjust-cellHeightDemo  前言其实早就准备写这篇文章了，但是一直没有系统去整理一下相关的demo，加上最近离职了，各种事情忙的有点郁闷，所以一直拖沓了下来。回家休息了一段时间想起来写了一半的demo，在还没找工作的这段空挡时间抽空完善了一下再写篇说明文档备忘一下。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-a515cbcccd180643.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-ab99688501e50247.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-1cffe0a6b5c9220b.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2017-08-07T06:28:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS自适应cell行高的那点破事儿">
+<meta name="twitter:description" content="FSAutoAdjust-cellHeightDemo  前言其实早就准备写这篇文章了，但是一直没有系统去整理一下相关的demo，加上最近离职了，各种事情忙的有点郁闷，所以一直拖沓了下来。回家休息了一段时间想起来写了一半的demo，在还没找工作的这段空挡时间抽空完善了一下再写篇说明文档备忘一下。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1792044-a515cbcccd180643.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-FSAutoAdjust-cellHeightDemo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/07/FSAutoAdjust-cellHeightDemo/" class="article-date">
+  <time datetime="2017-08-06T18:25:00.000Z" itemprop="datePublished">2017-08-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/框架/">框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS自适应cell行高的那点破事儿
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/1792044-a515cbcccd180643.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="=-=.jpeg"><br><a href="https://github.com/shunFSKi/FSAutoAdjust-cellHeightDemo" target="_blank" rel="noopener">FSAutoAdjust-cellHeightDemo
+</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>其实早就准备写这篇文章了，但是一直没有系统去整理一下相关的demo，加上最近离职了，各种事情忙的有点郁闷，所以一直拖沓了下来。回家休息了一段时间想起来写了一半的demo，在还没找工作的这段空挡时间抽空完善了一下再写篇说明文档备忘一下。</p>
+<a id="more"></a>
+<p>##需求背景<br>iOS的cell行高自适应是个非常常见的需求，也是一个非常简单的需求，之前我遇到过很多小伙伴不知道怎么来实现，在这里就一步步的来分析一下，供大家参考。</p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>其他的实现场景就不说了，我们现在来分析一下具体的需求，如图所示：<br><img src="http://upload-images.jianshu.io/upload_images/1792044-ab99688501e50247.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="cell行高自适应.png"></p>
+<p>其实主要实现这几点就可以解决所谓的自适应行高的问题，下面我们就来逐步实现这个需求。</p>
+<h2 id="计算UITableViewCell的高度"><a href="#计算UITableViewCell的高度" class="headerlink" title="计算UITableViewCell的高度"></a>计算UITableViewCell的高度</h2><p>说到计算高度，大家都不陌生，最简单常见的就是计算出每个子视图的高度累积起来返回我们所需要的<code>cell</code>高度，然后在<code>UITableViewDelegate</code>中调用：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGFloat</span>)tableView:(<span class="built_in">UITableView</span> *)tableView heightForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="number">666</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者高度固定的情况下直接</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.tableView.rowHeight = <span class="number">666</span>;</span><br></pre></td></tr></table></figure>
+
+<p>但是这就要求我们需要提前拿到model中的数据来手动计算每个控件的高度，这样既麻烦又不能通用，所以在<code>autolayout</code>出来之后我们只要给<code>cell</code>的<code>contentView</code>的上下左右都添加了约束，系统就可以自动的帮我们实现高度的自适应，就是一定要保证<code>cell</code>的高度可以被子视图撑开就可以了，利用的是<code>systemLayoutSizeFittingSize</code>这个<code>API</code>；<br>iOS8之后就更简单了，直接使用：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.tableView.estimatedRowHeight = <span class="number">666</span>;</span><br><span class="line"><span class="keyword">self</span>.tableView.rowHeight = <span class="built_in">UITableViewAutomaticDimension</span>;</span><br></pre></td></tr></table></figure>
+
+<p>就可以了，其中<code>estimatedRowHeight</code>是预估高度，这里要注意<code>delegate</code>中的返回高度方法就不用在写了。<br>关于这方面的文章，<code>UITableView+FDTemplateLayoutCel</code>的作者写的一篇文章十分详细，建议先去了解一下（<a href="http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/" target="_blank" rel="noopener">优化UITableViewCell高度计算的那些事
+</a>）<br>但是这个方法实际上在有多个子视图的<code>cell</code>上滑动是很卡顿的，特别是在iOS8尤其是iOS10上卡顿尤为明显，这跟系统的算高机制有一定关系，具体可以看上面的文章，这里不再解释了。<br>如果脱离开<code>autolayout</code>来说，平时计算高度的话，最开始都是根据<code>cell</code>内子控件内容的高度来手动累加起来，但是这个方法每次都要去手动处理其中的算高逻辑，而且横竖屏切换的时候还要重新计算，在平时开发中就会浪费大量不必要的精力。所以后来我在项目中是通过调用<code>layoutSubviews</code>来获取到子控件的实际<code>frame</code>，这样就可以得到我们所需的<code>cell</code>高度值，如下代码所示：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">cell.frame = <span class="built_in">CGRectSetWidth</span>(cell.frame, contentViewWidth);</span><br><span class="line">    cell.contentView.frame = <span class="built_in">CGRectSetWidth</span>(cell.contentView.frame, <span class="built_in">CGRectGetWidth</span>(tableView.frame));</span><br><span class="line">    [cell layoutIfNeeded];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">UIView</span> *cellBottomView = <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">if</span> (cell.FS_cellBottomView) &#123;</span><br><span class="line">        cellBottomView = cell.FS_cellBottomView;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (cell.FS_cellBottomViews &amp;&amp; cell.FS_cellBottomViews.count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        cellBottomView = cell.FS_cellBottomViews[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">UIView</span> *view <span class="keyword">in</span> cell.FS_cellBottomViews) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">CGRectGetMaxY</span>(view.frame) &gt; <span class="built_in">CGRectGetMaxY</span>(cellBottomView.frame)) &#123;</span><br><span class="line">                cellBottomView = view;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSArray</span> *contentViewSubViews = cell.contentView.subviews;</span><br><span class="line">        <span class="keyword">if</span> (contentViewSubViews.count == <span class="number">0</span>) &#123;</span><br><span class="line">            cellBottomView = cell.contentView;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            cellBottomView = contentViewSubViews[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">UIView</span> *view <span class="keyword">in</span> contentViewSubViews) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">CGRectGetMaxY</span>(view.frame) &gt; <span class="built_in">CGRectGetMaxY</span>(cellBottomView.frame)) &#123;</span><br><span class="line">                    cellBottomView = view;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">CGFloat</span> cellHeight = <span class="built_in">CGRectGetMaxY</span>(cellBottomView.frame) + bottomOffset;</span><br></pre></td></tr></table></figure>
+
+<p>其中的<code>cellBottomView</code>是位于<code>cell</code>最底部的子视图，为了提高计算效率最好传入，如果不确定哪个子视图在最下面，可以传入一个视图数组<code>contentViewSubViews</code>，详细使用方式可以查看demo。</p>
+<h2 id="缓存cell高度"><a href="#缓存cell高度" class="headerlink" title="缓存cell高度"></a>缓存cell高度</h2><p>高度计算出来后，正常来说我们的需求已经达到了，但是如果这个高度值每次滑动的时候由于<code>cell</code>的复用机制都会重新计算，若果这个<code>cell</code>的自定义样式很复杂，子视图太多，那么大量的计算一定会损耗性能而导致明显的卡顿，所以缓存机制就是个必要的措施，更何况苹果也建议这样做；<br>demo提供了两个计算行高的<code>API</code>：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> cell自动计算行高</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> @param tableView tableView</span></span><br><span class="line"><span class="comment"> @param indexPath indexPath</span></span><br><span class="line"><span class="comment"> @param contentViewWidth cell内容宽度，不确定可传0</span></span><br><span class="line"><span class="comment"> @return cell高度</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">+ (<span class="built_in">CGFloat</span>)FSCellHeightForTableView:(<span class="built_in">UITableView</span> *)tableView indexPath:(<span class="built_in">NSIndexPath</span> *)indexPath cellContentViewWidth:(<span class="built_in">CGFloat</span>)contentViewWidth bottomOffset:(<span class="built_in">CGFloat</span>)bottomOffset;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> cell自动计算行高优化版</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> @param tableView tableView</span></span><br><span class="line"><span class="comment"> @param indexPath indexPath</span></span><br><span class="line"><span class="comment"> @param cacheKey 当前cell唯一标识符</span></span><br><span class="line"><span class="comment"> @param contentViewWidth cell内容宽度，不确定可传0</span></span><br><span class="line"><span class="comment"> @return cell高度</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">+ (<span class="built_in">CGFloat</span>)FSCellHeightForTableView:(<span class="built_in">UITableView</span> *)tableView indexPath:(<span class="built_in">NSIndexPath</span> *)indexPath cacheKey:(<span class="built_in">NSString</span> *)cacheKey cellContentViewWidth:(<span class="built_in">CGFloat</span>)contentViewWidth bottomOffset:(<span class="built_in">CGFloat</span>)bottomOffset;</span><br></pre></td></tr></table></figure>
+
+<p>第一种使用数组来做缓存，传入对应<code>cell</code>的<code>indexPath</code>作为数组索引值；第二种则采用字典来缓存数据，要求传入一个唯一标识符<code>cacheKey</code>来区分；<br>两种方式都可以准确获得<code>cell</code>高度，第一种实现更简洁，缺点就是数据源发生变化时，所有的缓存就会清空重新计算后缓存，比如<code>reloadData</code>的时候；第二种就是在前者的基础上添加一个区分不同<code>cell</code>的标识符，使用时还是建议使用第二种，不会清空缓存数据，轻量级页面没什么区别。总之两种方法都做了缓存数据的容错处理，支持以下方法：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@selector</span>(reloadData),</span><br><span class="line">        <span class="keyword">@selector</span>(insertSections:withRowAnimation:),</span><br><span class="line">        <span class="keyword">@selector</span>(deleteSections:withRowAnimation:),</span><br><span class="line">        <span class="keyword">@selector</span>(reloadSections:withRowAnimation:),</span><br><span class="line">        <span class="keyword">@selector</span>(moveSection:toSection:),</span><br><span class="line">        <span class="keyword">@selector</span>(insertRowsAtIndexPaths:withRowAnimation:),</span><br><span class="line">        <span class="keyword">@selector</span>(deleteRowsAtIndexPaths:withRowAnimation:),</span><br><span class="line">        <span class="keyword">@selector</span>(reloadRowsAtIndexPaths:withRowAnimation:),</span><br><span class="line">        <span class="keyword">@selector</span>(moveRowAtIndexPath:toIndexPath:)</span><br></pre></td></tr></table></figure>
+
+<h2 id="兼容横竖屏"><a href="#兼容横竖屏" class="headerlink" title="兼容横竖屏"></a>兼容横竖屏</h2><p>这个需求实现较为简单，就是横屏和竖屏分别采用两套缓存数据，互不影响，切换横竖屏的时候自动切换数据源。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSMutableArray</span> *)indexCacheArrForCurrentOrientation</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">UIDeviceOrientationIsPortrait</span>([<span class="built_in">UIDevice</span> currentDevice].orientation) ? <span class="keyword">self</span>.indexCacheArr_Portrait: <span class="keyword">self</span>.indexCacheArr_Landscape;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后实现的效果如图所示：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1792044-1cffe0a6b5c9220b.gif?imageMogr2/auto-orient/strip" alt="FSAutoAdjust-cellHeightDemo.gif"></p>
+<p>总之答题思路就是这些，使用方便，感兴趣的可以移步下载demo查看：<a href="https://github.com/shunFSKi/FSAutoAdjust-cellHeightDemo" target="_blank" rel="noopener">FSAutoAdjust-cellHeightDemo
+</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/07/FSAutoAdjust-cellHeightDemo/" data-id="cjz7yejlj0004a63dthu6a5j2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/18/Flutter环境配置详解/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Flutter入坑简介及环境配置详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/26/FSCustomButtonDemo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS一步步实现一个高度自定义UIButton控件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/布局/">布局</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/手势/">手势</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/控件/">控件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/框架/">框架</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术/">技术</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/技术/" style="font-size: 20px;">技术</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/18/Flutter环境配置详解/">Flutter入坑简介及环境配置详解</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/07/FSAutoAdjust-cellHeightDemo/">iOS自适应cell行高的那点破事儿</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/26/FSCustomButtonDemo/">iOS一步步实现一个高度自定义UIButton控件</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/10/FSGridLayoutDemo/">iOS一种动态栅格布局方案</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/07/FSScrollViewNestTableView/">iOS scrollView嵌套tableView的手势冲突解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

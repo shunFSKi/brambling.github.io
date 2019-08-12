@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>iOS scrollView嵌套tableView的手势冲突解决方案 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在平时项目中，我们经常会碰到类似UIScrollView嵌套UITableView的需求，虽然苹果并不建议这种做法，但是这样的需求在平时工作中还是很常见的。比如笔者公司项目之前用到的地方： 可以看到最上面是一块轮播图组件，我也已经整理了一份轮播图组件在github上面，轮播图下面还有若干条其他的内容，而且这几块内容都是后台动态控制显示的，所以这里用UIScrollView设置顶部偏移量实现是很不方">
+<meta name="keywords" content="技术,iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS scrollView嵌套tableView的手势冲突解决方案">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/FSScrollViewNestTableView/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在平时项目中，我们经常会碰到类似UIScrollView嵌套UITableView的需求，虽然苹果并不建议这种做法，但是这样的需求在平时工作中还是很常见的。比如笔者公司项目之前用到的地方： 可以看到最上面是一块轮播图组件，我也已经整理了一份轮播图组件在github上面，轮播图下面还有若干条其他的内容，而且这几块内容都是后台动态控制显示的，所以这里用UIScrollView设置顶部偏移量实现是很不方">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-ec83d82069011023.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-a2e78c7d05133233.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2017-06-28T14:48:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS scrollView嵌套tableView的手势冲突解决方案">
+<meta name="twitter:description" content="在平时项目中，我们经常会碰到类似UIScrollView嵌套UITableView的需求，虽然苹果并不建议这种做法，但是这样的需求在平时工作中还是很常见的。比如笔者公司项目之前用到的地方： 可以看到最上面是一块轮播图组件，我也已经整理了一份轮播图组件在github上面，轮播图下面还有若干条其他的内容，而且这几块内容都是后台动态控制显示的，所以这里用UIScrollView设置顶部偏移量实现是很不方">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1792044-ec83d82069011023.gif?imageMogr2/auto-orient/strip">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-FSScrollViewNestTableView" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/07/FSScrollViewNestTableView/" class="article-date">
+  <time datetime="2017-06-07T13:24:00.000Z" itemprop="datePublished">2017-06-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/手势/">手势</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS scrollView嵌套tableView的手势冲突解决方案
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在平时项目中，我们经常会碰到类似<code>UIScrollView</code>嵌套<code>UITableView</code>的需求，虽然苹果并不建议这种做法，但是这样的需求在平时工作中还是很常见的。比如笔者公司项目之前用到的地方：<br><img src="http://upload-images.jianshu.io/upload_images/1792044-ec83d82069011023.gif?imageMogr2/auto-orient/strip" alt="FSScrollViewNestTableViewDemo.gif"></p>
+<p>可以看到最上面是一块轮播图组件，我也已经整理了<a href="https://github.com/shunFSKi/FSLoopScrollView" target="_blank" rel="noopener">一份轮播图组件在github上面</a>，轮播图下面还有若干条其他的内容，而且这几块内容都是后台动态控制显示的，所以这里用<code>UIScrollView</code>设置顶部偏移量实现是很不方便的。最外层我肯定选择使用<code>tableView</code>分区管理来实现。而下面的横向分类页面肯定需要<code>tableView</code>去实现</p>
+<a id="more"></a>
+
+<p>这样的话问题就来了，先不说下面的横向分页如何实现，这个页面必定需要在一个<code>tableView</code>中嵌套多个不同的<code>tableView</code>，但是如果嵌套了其他的<code>scrollView</code>，就需要我们判断不同条件下让哪个<code>scrollView</code>响应滑动事件，因此这里我们需要解决的就是<strong>手势的冲突问题</strong>。</p>
+<p>最开始想到的是在滑动<code>tableView</code>时候根据偏移量设置<code>scrollEnabled</code>来控制两个<code>tableView</code>的响应，但是会有个问题就是当滚动到顶部时用户必须第二次滑动才可以显示出外层的<code>tableView</code>，这样就会造成一个卡顿的效果，所以这个方法是行不通的。</p>
+<p>下面说一下我的解决思路：<br>这里就直接分为<code>mainTableView</code>和<code>subTableView</code>，设置<code>mainTableView</code>的联动手势<code>UIGestureRecognizer</code></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 同时识别多个手势</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> @param gestureRecognizer gestureRecognizer description</span></span><br><span class="line"><span class="comment"> @param otherGestureRecognizer otherGestureRecognizer description</span></span><br><span class="line"><span class="comment"> @return return value description</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)otherGestureRecognizer</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面的分类<code>pageView</code>是直接使用了封装的page框架<a href="https://github.com/shunFSKi/FSScrollContentView" target="_blank" rel="noopener">FSScrollContentView</a>，在<code>mainTableView</code>的<code>UIScrollViewDelegate</code>方法内判断<code>mainTableView</code>的偏移量，当标题栏滚动到顶部的时候固定<code>mainTableView</code>的偏移量</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">CGFloat</span> bottomCellOffset = [_tableView rectForSection:<span class="number">1</span>].origin.y - <span class="number">64</span>;</span><br><span class="line">    <span class="keyword">if</span> (scrollView.contentOffset.y &gt;= bottomCellOffset) &#123;</span><br><span class="line">        scrollView.contentOffset = <span class="built_in">CGPointMake</span>(<span class="number">0</span>, bottomCellOffset);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.canScroll) &#123;</span><br><span class="line">            <span class="keyword">self</span>.canScroll = <span class="literal">NO</span>;</span><br><span class="line">            <span class="keyword">self</span>.contentCell.cellCanScroll = <span class="literal">YES</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">self</span>.canScroll) &#123;<span class="comment">//子视图没到顶部</span></span><br><span class="line">            scrollView.contentOffset = <span class="built_in">CGPointMake</span>(<span class="number">0</span>, bottomCellOffset);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">self</span>.tableView.showsVerticalScrollIndicator = _canScroll?<span class="literal">YES</span>:<span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中的<code>canScroll</code>是定义的一个<code>BOOL</code>变量用来控制<code>mainTableView</code>的偏移量</p>
+<p>此时，<code>subTableView</code>收到可以滚动的信号<code>cellCanScroll</code>，才开始响应滑动的手势，在<code>subTableView</code>的<code>UIScrollViewDelegate</code>方法内实现：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>.vcCanScroll) &#123;</span><br><span class="line">        scrollView.contentOffset = <span class="built_in">CGPointZero</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (scrollView.contentOffset.y &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">self</span>.fingerIsTouch) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">self</span>.vcCanScroll = <span class="literal">NO</span>;</span><br><span class="line">        scrollView.contentOffset = <span class="built_in">CGPointZero</span>;</span><br><span class="line">        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"leaveTop"</span> object:<span class="literal">nil</span>];<span class="comment">//到顶通知父视图改变状态</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">self</span>.tableView.showsVerticalScrollIndicator = _vcCanScroll?<span class="literal">YES</span>:<span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实到这里会发现主要是通过设置两个<code>scrollView</code>的偏移量来解决这个手势冲突的问题。因为代码已经表达的很清楚，不太擅长表达，这里只是大概描述一下使用场景。</p>
+<p>具体的实现方式已经写成了一个demo，里面也有详细的注释，可以前去下载：<a href="https://github.com/shunFSKi/FSScrollViewNestTableView" target="_blank" rel="noopener">FSScrollViewNestTableView</a></p>
+<hr>
+<p><strong>2017.6.21–应网友要求，demo添加了刷新逻辑</strong></p>
+<hr>
+<p>给大家看一下实现后的效果图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1792044-a2e78c7d05133233.gif?imageMogr2/auto-orient/strip" alt="FSScrollViewNestTableView.gif"></p>
+<h2 id="这里只是提供了一种解决方案，欢迎提出问题多多交流"><a href="#这里只是提供了一种解决方案，欢迎提出问题多多交流" class="headerlink" title="这里只是提供了一种解决方案，欢迎提出问题多多交流"></a>这里只是提供了一种解决方案，欢迎提出问题多多交流</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/07/FSScrollViewNestTableView/" data-id="cjz7yejll0005a63d7ppg7dhq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/06/10/FSGridLayoutDemo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS一种动态栅格布局方案
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/布局/">布局</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/手势/">手势</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/控件/">控件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/框架/">框架</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术/">技术</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/技术/" style="font-size: 20px;">技术</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/18/Flutter环境配置详解/">Flutter入坑简介及环境配置详解</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/07/FSAutoAdjust-cellHeightDemo/">iOS自适应cell行高的那点破事儿</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/26/FSCustomButtonDemo/">iOS一步步实现一个高度自定义UIButton控件</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/10/FSGridLayoutDemo/">iOS一种动态栅格布局方案</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/07/FSScrollViewNestTableView/">iOS scrollView嵌套tableView的手势冲突解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>iOS一种动态栅格布局方案 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言在日常开发过程中，我们会遇到一些需要不定期动态改变布局的页面或视图块，下面用张图展示一下： 我以这张图解释一下需求，图上的几块都是需要显示不同的功能模块，点击的时候也需要跳转到不同页面。这个布局实现很简单，但是如果这个布局需要不定期的更改，比如A换到右边，大小发生变化等不确定因素，我们不可能就发布一个新的版本去修改这个页面。所以大部分人会选择webView来实现，或者事先约定好几种布局格式，由">
+<meta name="keywords" content="技术,iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS一种动态栅格布局方案">
+<meta property="og:url" content="http://yoursite.com/2017/06/10/FSGridLayoutDemo/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言在日常开发过程中，我们会遇到一些需要不定期动态改变布局的页面或视图块，下面用张图展示一下： 我以这张图解释一下需求，图上的几块都是需要显示不同的功能模块，点击的时候也需要跳转到不同页面。这个布局实现很简单，但是如果这个布局需要不定期的更改，比如A换到右边，大小发生变化等不确定因素，我们不可能就发布一个新的版本去修改这个页面。所以大部分人会选择webView来实现，或者事先约定好几种布局格式，由">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-0441a2b49f361528.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-3f99846aba74bcf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-e85b4b6c9f9f9caf.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1792044-cdf06361b9701eed.png?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2017-06-28T14:47:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS一种动态栅格布局方案">
+<meta name="twitter:description" content="前言在日常开发过程中，我们会遇到一些需要不定期动态改变布局的页面或视图块，下面用张图展示一下： 我以这张图解释一下需求，图上的几块都是需要显示不同的功能模块，点击的时候也需要跳转到不同页面。这个布局实现很简单，但是如果这个布局需要不定期的更改，比如A换到右边，大小发生变化等不确定因素，我们不可能就发布一个新的版本去修改这个页面。所以大部分人会选择webView来实现，或者事先约定好几种布局格式，由">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1792044-0441a2b49f361528.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-FSGridLayoutDemo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/10/FSGridLayoutDemo/" class="article-date">
+  <time datetime="2017-06-10T12:18:00.000Z" itemprop="datePublished">2017-06-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/布局/">布局</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS一种动态栅格布局方案
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在日常开发过程中，我们会遇到一些需要不定期动态改变布局的页面或视图块，下面用张图展示一下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1792044-0441a2b49f361528.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="zdm_home.png"><br>我以这张图解释一下需求，图上的几块都是需要显示不同的功能模块，点击的时候也需要跳转到不同页面。这个布局实现很简单，但是如果这个布局需要不定期的更改，比如A换到右边，大小发生变化等不确定因素，我们不可能就发布一个新的版本去修改这个页面。所以大部分人会选择<code>webView</code>来实现，或者事先约定好几种布局格式，由后台来随时改变布局。</p>
+<a id="more"></a>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>事实上这一块并占不了整个页面，大部分情况下只是在<code>tableView</code>中嵌套一截这样的需求，我公司项目的实现用的一直是<code>webView</code>来实现，但是这样就会有很多不必要的问题，比如<code>webView</code>的高度计算，如果客户端来计算高度，在一些网络不稳定情况下，<code>webView</code>的资源没有加载完全，高度就会出现偏差，而且<code>webView</code>的加载速度，性能，和<code>js</code>的交互都是很不理想的。（总之，我大原生就是不爱用h5啦）<br>这里其实有两种<strong>解决方案</strong>：</p>
+<ul>
+<li>方案1：和后台约定好几种布局样式，客户端根据后台参数来动态显示。</li>
+<li>方案2：这块视图看为一个整体，根据<code>json</code>数据将其分为X个子块，理论上可以根据数据无限分割下去。</li>
+</ul>
+<p><strong>优缺点</strong>：<br>第一种方案实现简单，而且可以应付日常所需，但是提前约定的格式必定不会太多，不够灵活。<br>第二种方案完全根据数据决定布局，子块可以无限分割下去，布局灵活，但是数据比较复杂。<br>实际上第二种布局是最近公司安卓小哥想出来 一个思路，我和他分别实现了一下，发现效果很好。<a href="http://www.jianshu.com/u/9095ceab041d" target="_blank" rel="noopener">这里是安卓小哥的简书</a>。</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>下面来和大家说一下具体的实现思路：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1792044-3f99846aba74bcf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="zdm_home.png"></p>
+<p>我们还是以这张图为例：<br>1、我们首先定义两个<code>row</code>和<code>item</code>元素，分别对应行和块的概念。如上图分为两行，A那里代表一整行，下面的四小块代表一整行。分割为<code>row1</code>和<code>row2</code>。<br>2、<code>row1</code>：分割为AB两块，水平排列，宽度比<code>2：3</code></p>
+<ul>
+<li>A不用再分，直接显示图片</li>
+<li>B分为B1、B2两块，垂直排列，高度比<code>1：1</code></li>
+<li>B2分为D、E两块，水平排列，宽度比<code>1：1</code><br><code>row2</code>：分割为<code>1：1：1：1</code>的四小块</li>
+</ul>
+<p><code>json</code>数据的结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;images&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;children&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;image&quot;: &quot;https://i.huim.com/miaoquan/14966511524892.SS2!/both/300x300/unsharp/true&quot;,</span><br><span class="line">                    &quot;weight&quot;: 2</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;children&quot;: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;image&quot;: &quot;https://i.huim.com/miaoquan/14963170206106.jpg!/both/300x300/unsharp/true&quot;,</span><br><span class="line">                            &quot;weight&quot;: 1</span><br><span class="line">                        &#125;,</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;children&quot;: [</span><br><span class="line">                                &#123;</span><br><span class="line">                                    &quot;image&quot;: &quot;https://i.huim.com/miaoquan/14968041079523.jpg!/compress/true/both/300x300&quot;,</span><br><span class="line">                                    &quot;weight&quot;: 1</span><br><span class="line">                                &#125;,</span><br><span class="line">                                &#123;</span><br><span class="line">                                    &quot;image&quot;: &quot;https://i.huim.com/miaoquan/14968026112335.jpg!/compress/true/both/300x300&quot;,</span><br><span class="line">                                    &quot;weight&quot;: 1</span><br><span class="line">                                &#125;</span><br><span class="line">                            ],</span><br><span class="line">                            &quot;orientation&quot;: &quot;h&quot;,</span><br><span class="line">                            &quot;weight&quot;: 1</span><br><span class="line">                        &#125;</span><br><span class="line">                    ],</span><br><span class="line">                    &quot;orientation&quot;: &quot;v&quot;,</span><br><span class="line">                    &quot;weight&quot;: 3</span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">            &quot;height&quot;: 212,</span><br><span class="line">            &quot;orientation&quot;: &quot;h&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;children&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;image&quot;: &quot;https://i.huim.com/miaoquan/14929203253142.SS2!/both/300x300/unsharp/true&quot;,</span><br><span class="line">                    &quot;weight&quot;: 1</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;image&quot;: &quot;https://i.huim.com/contents/14828912708690.jpg!/both/300x300/unsharp/true&quot;,</span><br><span class="line">                    &quot;weight&quot;: 1</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;image&quot;: &quot;https://i.huim.com/miaoquan/14968146185109.jpg!/both/300x300/unsharp/true&quot;,</span><br><span class="line">                    &quot;weight&quot;: 1</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;image&quot;: &quot;https://i.huim.com/miaoquan/14968145059484.jpg!/both/300x300/unsharp/true&quot;,</span><br><span class="line">                    &quot;weight&quot;: 1</span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">            &quot;height&quot;: 138,</span><br><span class="line">            &quot;orientation&quot;: &quot;h&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>数据说明：<br><code>images</code>：数组，数组的元素个数决定了整个<code>View</code>需要分为几行<code>row</code><br><code>children</code>：数组，数组元素个数决定了每个<code>row</code>需要分为多少个块<code>item</code><br><code>height</code>：<code>row</code>的高度<br><code>orientation</code>：布局方向，<code>v</code>和<code>h</code>，分别对应垂直和水平方向<br><code>image</code>：该子块显示的图片<br><code>weight</code>：在这一块中的权重比</p>
+<p><strong>最重要的是对这个数据的处理</strong>，children代表了块，这里用到了递归的思想，只要这一层的数据有children，就需要一直分割下去，直到children为<code>null</code>，停止分割，显示图片。这里的数据层次较深，逻辑需要处理清晰。</p>
+<p>不得不说，安卓小哥的当时提出了这个思路吸引到了我，和他分别实现了过后发现十分好用。这刚好解决了我公司项目中遇到的问题，如果衍生出去，其实可以代替很多地方的布局方式。这种布局灵活度很高，完全由后端数据控制，是个很棒的想法。</p>
+<p>下面展示一下我实现的效果图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1792044-e85b4b6c9f9f9caf.gif?imageMogr2/auto-orient/strip" alt="FSGridLayoutDemo.gif"></p>
+<p>上面的边框线是我方便区分每一块加上的，实际开发可以忽略。若果需要每个子块的跳转信息，可以在<code>image</code>那一层加一个参数。比如我公司是定义了一个页面跳转协议，客户端，前端，后端都是遵循这个协议，我举个例子，加了一个跳转参数<code>&quot;pushurl&quot;:&quot;huim://detail?id=1234&quot;</code>，我就知道这块需要跳转到商品id为1234的详情页。实现了高度动态化布局和跳转。我也不知道该称之为什么布局，所以暂时称之为<strong>栅格化布局</strong>。</p>
+<h2 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h2><p>这个布局正如我文章所述，一般是用来实现那种轻量级的页面，我主要是用来替代那种嵌套的<code>webView</code>的，如果太过复杂的页面当然就没有这个必要了。当然可以衍生出去可能会有适合你自己项目的地方。所以，酌情使用吧。</p>
+<p>我写的<a href="https://github.com/shunFSKi/FSGridLayoutDemo" target="_blank" rel="noopener">demo在这里</a>，想要看具体实现的可以前往下载，欢迎提出更好的实现方式。</p>
+<p>如果对你有所帮助和启发，不妨点个喜欢</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1792044-cdf06361b9701eed.png?imageMogr2/auto-orient/strip" alt="68fc9e97e32f8d394891bde8424dfac5.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/10/FSGridLayoutDemo/" data-id="cjz7yejle0001a63dey9uewkp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/06/26/FSCustomButtonDemo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS一步步实现一个高度自定义UIButton控件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/07/FSScrollViewNestTableView/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS scrollView嵌套tableView的手势冲突解决方案</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/布局/">布局</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/手势/">手势</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/控件/">控件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/框架/">框架</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flutter/">Flutter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术/">技术</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/技术/" style="font-size: 20px;">技术</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/18/Flutter环境配置详解/">Flutter入坑简介及环境配置详解</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/07/FSAutoAdjust-cellHeightDemo/">iOS自适应cell行高的那点破事儿</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/26/FSCustomButtonDemo/">iOS一步步实现一个高度自定义UIButton控件</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/10/FSGridLayoutDemo/">iOS一种动态栅格布局方案</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/07/FSScrollViewNestTableView/">iOS scrollView嵌套tableView的手势冲突解决方案</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

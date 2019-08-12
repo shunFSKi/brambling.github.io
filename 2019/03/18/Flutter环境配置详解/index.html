@@ -5,15 +5,35 @@
   
 
   
-  <title>Hexo</title>
+  <title>Flutter入坑简介及环境配置详解 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="前言配置教程直接往下翻吧，前面都是废话。Flutter现在没听过的怕是没几位井中同仁了吧，继React Native大潮后的又一跨平台吊炸天框架。风风火火一年了，我也得借着这个机会赶紧上波末班车（主要是技术老大翻她牌子了）。到目前的体验是较为惊艳。 Flutter简介Flutter是Google推出的基于Dart语言开发的跨平台开源UI框架，旨在统一纷纷扰扰的跨平台开发框架，在UI层面上多端共用">
+<meta name="keywords" content="技术,Flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter入坑简介及环境配置详解">
+<meta property="og:url" content="http://yoursite.com/2019/03/18/Flutter环境配置详解/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言配置教程直接往下翻吧，前面都是废话。Flutter现在没听过的怕是没几位井中同仁了吧，继React Native大潮后的又一跨平台吊炸天框架。风风火火一年了，我也得借着这个机会赶紧上波末班车（主要是技术老大翻她牌子了）。到目前的体验是较为惊艳。 Flutter简介Flutter是Google推出的基于Dart语言开发的跨平台开源UI框架，旨在统一纷纷扰扰的跨平台开发框架，在UI层面上多端共用">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/flutterlogo.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%8811.09.45.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/flutter_h.gif">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/flutter%20doctor.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%8811.16.00.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%888.57.22.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%888.57.47.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%889.14.24.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%888.59.35.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%889.35.47.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/flutter_demo.gif">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%8810.22.01.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-03-18%20%E4%B8%8B%E5%8D%8810.22.21.png">
+<meta property="og:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/flutter_dm.gif">
+<meta property="og:updated_time" content="2019-03-18T15:52:57.279Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Flutter入坑简介及环境配置详解">
+<meta name="twitter:description" content="前言配置教程直接往下翻吧，前面都是废话。Flutter现在没听过的怕是没几位井中同仁了吧，继React Native大潮后的又一跨平台吊炸天框架。风风火火一年了，我也得借着这个机会赶紧上波末班车（主要是技术老大翻她牌子了）。到目前的体验是较为惊艳。 Flutter简介Flutter是Google推出的基于Dart语言开发的跨平台开源UI框架，旨在统一纷纷扰扰的跨平台开发框架，在UI层面上多端共用">
+<meta name="twitter:image" content="https://shunfski-blog.oss-cn-hangzhou.aliyuncs.com/flutterlogo.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -60,9 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-Flutter环境配置详解" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Flutter环境配置详解" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/03/18/Flutter环境配置详解/" class="article-date">
   <time datetime="2019-03-18T09:29:57.000Z" itemprop="datePublished">2019-03-18</time>
@@ -79,8 +97,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/18/Flutter环境配置详解/">Flutter入坑简介及环境配置详解</a>
+    <h1 class="article-title" itemprop="name">
+      Flutter入坑简介及环境配置详解
     </h1>
   
 
@@ -192,204 +210,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-FSAutoAdjust-cellHeightDemo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/08/07/FSAutoAdjust-cellHeightDemo/" class="article-date">
-  <time datetime="2017-08-06T18:25:00.000Z" itemprop="datePublished">2017-08-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/框架/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/07/FSAutoAdjust-cellHeightDemo/">iOS自适应cell行高的那点破事儿</a>
-    </h1>
+    <a href="/2017/08/07/FSAutoAdjust-cellHeightDemo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS自适应cell行高的那点破事儿</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://upload-images.jianshu.io/upload_images/1792044-a515cbcccd180643.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="=-=.jpeg"><br><a href="https://github.com/shunFSKi/FSAutoAdjust-cellHeightDemo" target="_blank" rel="noopener">FSAutoAdjust-cellHeightDemo
-</a></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>其实早就准备写这篇文章了，但是一直没有系统去整理一下相关的demo，加上最近离职了，各种事情忙的有点郁闷，所以一直拖沓了下来。回家休息了一段时间想起来写了一半的demo，在还没找工作的这段空挡时间抽空完善了一下再写篇说明文档备忘一下。</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/08/07/FSAutoAdjust-cellHeightDemo/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/07/FSAutoAdjust-cellHeightDemo/" data-id="cjz7yejlj0004a63dthu6a5j2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-FSCustomButtonDemo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/26/FSCustomButtonDemo/" class="article-date">
-  <time datetime="2017-06-26T09:28:00.000Z" itemprop="datePublished">2017-06-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/控件/">控件</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/26/FSCustomButtonDemo/">iOS一步步实现一个高度自定义UIButton控件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://upload-images.jianshu.io/upload_images/1792044-1a0d693d2497a0a7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="=-=.jpg"></p>
-<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>日常开发中<code>UIButton</code>的图片与标题默认的布局是固定的，是在水平方向左右排列。但是我们会经常需要更改<code>image</code>和<code>title</code>的位置来实现需求，这是个很常见的需求就不多说了。所以下面就来谈谈如何一步步的实现一个高度自定义的<code>UIButton</code>控件。</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/06/26/FSCustomButtonDemo/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/26/FSCustomButtonDemo/" data-id="cjz7yejla0000a63d1rl9rk3n" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-FSGridLayoutDemo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/10/FSGridLayoutDemo/" class="article-date">
-  <time datetime="2017-06-10T12:18:00.000Z" itemprop="datePublished">2017-06-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/布局/">布局</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/10/FSGridLayoutDemo/">iOS一种动态栅格布局方案</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在日常开发过程中，我们会遇到一些需要不定期动态改变布局的页面或视图块，下面用张图展示一下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1792044-0441a2b49f361528.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="zdm_home.png"><br>我以这张图解释一下需求，图上的几块都是需要显示不同的功能模块，点击的时候也需要跳转到不同页面。这个布局实现很简单，但是如果这个布局需要不定期的更改，比如A换到右边，大小发生变化等不确定因素，我们不可能就发布一个新的版本去修改这个页面。所以大部分人会选择<code>webView</code>来实现，或者事先约定好几种布局格式，由后台来随时改变布局。</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/06/10/FSGridLayoutDemo/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/10/FSGridLayoutDemo/" data-id="cjz7yejle0001a63dey9uewkp" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-FSScrollViewNestTableView" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/07/FSScrollViewNestTableView/" class="article-date">
-  <time datetime="2017-06-07T13:24:00.000Z" itemprop="datePublished">2017-06-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/手势/">手势</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/07/FSScrollViewNestTableView/">iOS scrollView嵌套tableView的手势冲突解决方案</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在平时项目中，我们经常会碰到类似<code>UIScrollView</code>嵌套<code>UITableView</code>的需求，虽然苹果并不建议这种做法，但是这样的需求在平时工作中还是很常见的。比如笔者公司项目之前用到的地方：<br><img src="http://upload-images.jianshu.io/upload_images/1792044-ec83d82069011023.gif?imageMogr2/auto-orient/strip" alt="FSScrollViewNestTableViewDemo.gif"></p>
-<p>可以看到最上面是一块轮播图组件，我也已经整理了<a href="https://github.com/shunFSKi/FSLoopScrollView" target="_blank" rel="noopener">一份轮播图组件在github上面</a>，轮播图下面还有若干条其他的内容，而且这几块内容都是后台动态控制显示的，所以这里用<code>UIScrollView</code>设置顶部偏移量实现是很不方便的。最外层我肯定选择使用<code>tableView</code>分区管理来实现。而下面的横向分类页面肯定需要<code>tableView</code>去实现</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/06/07/FSScrollViewNestTableView/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/07/FSScrollViewNestTableView/" data-id="cjz7yejll0005a63d7ppg7dhq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
 
 </section>
         
