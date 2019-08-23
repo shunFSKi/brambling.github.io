@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>燕雀</title>
   
-  
+  <subtitle>书到用时方恨少</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://shunfski.github.io/"/>
